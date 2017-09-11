@@ -235,6 +235,11 @@ ScriptEditorQuickOpen::ScriptEditorQuickOpen() {
 /////////////////////////////////
 
 ScriptEditor *ScriptEditor::script_editor = NULL;
+ScriptTextEditorProxy *ScriptTextEditor::editor_proxy = NULL;
+
+void ScriptTextEditor::set_editor_proxy(ScriptTextEditorProxy *proxy) {
+    editor_proxy = proxy;
+}
 
 Vector<String> ScriptTextEditor::get_functions() {
 
@@ -2663,7 +2668,7 @@ ScriptEditor::ScriptEditor(EditorNode *p_editor) {
 	search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/find", TTR("Find.."), KEY_MASK_CMD | KEY_F), SEARCH_FIND);
 	search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/find_next", TTR("Find Next"), KEY_F3), SEARCH_FIND_NEXT);
 	search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/find_previous", TTR("Find Previous"), KEY_MASK_SHIFT | KEY_F3), SEARCH_FIND_PREV);
-	search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/replace", TTR("Replace.."), KEY_MASK_CMD | KEY_R), SEARCH_REPLACE);
+    search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/replace", TTR("Replace.."), KEY_MASK_CMD | KEY_H), SEARCH_REPLACE);
 	search_menu->get_popup()->add_separator();
 	search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/goto_function", TTR("Goto Function.."), KEY_MASK_SHIFT | KEY_MASK_CMD | KEY_F), SEARCH_LOCATE_FUNCTION);
 	search_menu->get_popup()->add_shortcut(ED_SHORTCUT("script_editor/goto_line", TTR("Goto Line.."), KEY_MASK_CMD | KEY_L), SEARCH_GOTO_LINE);

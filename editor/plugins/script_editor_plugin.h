@@ -70,6 +70,7 @@ public:
 };
 
 class ScriptEditorDebugger;
+class ScriptTextEditorProxy;
 
 class ScriptTextEditor : public CodeTextEditor {
 
@@ -79,6 +80,8 @@ class ScriptTextEditor : public CodeTextEditor {
 
 	Vector<String> functions;
 
+    static ScriptTextEditorProxy *editor_proxy;
+
 protected:
 	virtual void _validate_script();
 	virtual void _code_complete_script(const String &p_code, List<String> *r_options);
@@ -87,6 +90,7 @@ protected:
 	static void _bind_methods();
 
 public:
+    static void set_editor_proxy(ScriptTextEditorProxy *proxy);
 	virtual void apply_code();
 	Ref<Script> get_edited_script() const;
 	Vector<String> get_functions();
@@ -95,7 +99,16 @@ public:
 	String get_name();
 	Ref<Texture> get_icon();
 	bool is_unsaved();
-	ScriptTextEditor();
+    ScriptTextEditor();
+};
+
+class ScriptTextEditorProxy : public Reference {
+    OBJ_TYPE(ScriptTextEditorProxy, Reference);
+    ScriptTextEditor *editor;
+
+public:
+    void set_editor(ScriptTextEditor *editor) { this->editor = editor; }
+    ScriptTextEditorProxy() {}
 };
 
 class EditorScriptCodeCompletionCache;
