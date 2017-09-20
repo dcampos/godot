@@ -80,7 +80,7 @@ class ScriptTextEditor : public CodeTextEditor {
 
 	Vector<String> functions;
 
-    static ScriptTextEditorProxy *editor_proxy;
+    static Vector<ScriptTextEditorProxy*> proxies;
 
 protected:
 	virtual void _validate_script();
@@ -100,15 +100,27 @@ public:
 	Ref<Texture> get_icon();
 	bool is_unsaved();
     ScriptTextEditor();
+
+    void editor_input(const InputEvent &p_event);
+
+    static void add_proxy(ScriptTextEditorProxy *proxy);
 };
 
 class ScriptTextEditorProxy : public Reference {
     OBJ_TYPE(ScriptTextEditorProxy, Reference);
-    ScriptTextEditor *editor;
+
+    static ScriptTextEditorProxy *singleton;
+
+protected:
+    static void _bind_methods();
 
 public:
-    void set_editor(ScriptTextEditor *editor) { this->editor = editor; }
-    ScriptTextEditorProxy() {}
+//    static ScriptTextEditorProxy *get_singleton() { return singleton; }
+
+    virtual void set_editor(ScriptTextEditor *editor) = 0;
+    virtual void editor_input(const InputEvent &p_event) = 0;
+    void dummy() { print_line("dummy!");}
+
 };
 
 class EditorScriptCodeCompletionCache;

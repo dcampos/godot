@@ -960,11 +960,6 @@ void CodeTextEditor::_text_editor_input_event(const InputEvent &p_event) {
 			}
 		}
 	} else if (p_event.type == InputEvent::KEY) {
-        const InputEventKey &kk = p_event.key;
-
-        if (p_event.key.pressed && kk.scancode == KEY_ESCAPE) {
-            text_editor->cursor_set_block_mode(!text_editor->cursor_is_block_mode());
-        }
 
 		if (p_event.key.pressed) {
 			if (ED_IS_SHORTCUT("script_editor/zoom_in", p_event)) {

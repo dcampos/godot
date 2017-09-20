@@ -234,12 +234,32 @@ ScriptEditorQuickOpen::ScriptEditorQuickOpen() {
 
 /////////////////////////////////
 
-ScriptEditor *ScriptEditor::script_editor = NULL;
-ScriptTextEditorProxy *ScriptTextEditor::editor_proxy = NULL;
-
-void ScriptTextEditor::set_editor_proxy(ScriptTextEditorProxy *proxy) {
-    editor_proxy = proxy;
+void ScriptTextEditorProxy::_bind_methods() {
+    ObjectTypeDB::bind_method("editor_input", &ScriptTextEditorProxy::editor_input);
 }
+
+//ScriptTextEditorProxy *ScriptTextEditorProxy::singleton = NULL;
+Vector<ScriptTextEditorProxy*> ScriptTextEditor::proxies;
+
+void ScriptTextEditor::add_proxy(ScriptTextEditorProxy *proxy) {
+    proxies.push_back(proxy);
+}
+
+//void ScriptTextEditorProxy::set_editor(ScriptTextEditor *editor) {
+//    print_line("**** base::set_editor is being called ****");
+//    for (int i = 0; i < proxies.size(); ++i) {
+//        ScriptTextEditorProxy *proxy = proxies.get(i);
+        //proxy->set_editor(editor);
+//    }
+//}
+
+//ScriptTextEditorProxy::ScriptTextEditorProxy() {
+//    singleton = this;
+//}
+
+/////////////////////////////////
+
+ScriptEditor *ScriptEditor::script_editor = NULL;
 
 Vector<String> ScriptTextEditor::get_functions() {
 
@@ -571,11 +591,15 @@ void ScriptTextEditor::_code_complete_script(const String &p_code, List<String> 
 	}
 }
 void ScriptTextEditor::_bind_methods() {
-
-	ADD_SIGNAL(MethodInfo("name_changed"));
+    ADD_SIGNAL(MethodInfo("name_changed"));
 }
 
 ScriptTextEditor::ScriptTextEditor() {
+    for (int i = 0; i < proxies.size(); ++i) {
+        ScriptTextEditorProxy *proxy = proxies.get(i);
+        print_line("setting editor...");
+        proxy->set_editor(this);
+    }
 }
 
 /*** SCRIPT EDITOR ******/
